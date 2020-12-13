@@ -10,6 +10,14 @@ A simple template repository you can use to fast track your new modern Windows a
 * Dependency injection already configured
 * Example usage of dependency injection
 
+## Usage
+
+1. Click the "use this template" button
+2. This should generate a new repo that is pre-populated with the files in this template
+3. Clone your newly generated repo
+4. Use File Explorer or some other method to change the names of the projects, solutions, and namespaces as you see fit.
+5. Start building your app!
+
 ## Contribution
 
 Ideas for new things to add are welcome, but I'd like to keep this repo as minimal as possible so apologies in advance if some ideas aren't added.
