@@ -1,4 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Diagnostics;
+using MyApp.Services;
+using MyApp.Services.Uwp;
+using MyApp.ViewModels;
+using MyApp.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,13 +21,17 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace MyApp.Uwp
+#nullable enable
+
+namespace MyApp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
     {
+        private IServiceProvider? _serviceProvider;
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,6 +40,24 @@ namespace MyApp.Uwp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> instance for the current application instance.
+        /// </summary>
+        public static IServiceProvider Services
+        {
+            get
+            {
+                IServiceProvider? serviceProvider = ((App)Current)._serviceProvider;
+
+                if (serviceProvider is null)
+                {
+                    ThrowHelper.ThrowInvalidOperationException("The service provider is not initialized");
+                }
+
+                return serviceProvider;
+            }
         }
 
         /// <summary>
@@ -57,6 +85,9 @@ namespace MyApp.Uwp
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+                
+                // Setup dependency injection container
+                _serviceProvider = ConfigureServices();
             }
 
             if (e.PrelaunchActivated == false)
@@ -95,6 +126,17 @@ namespace MyApp.Uwp
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        /// <summary>
+        /// Configures a new <see cref="IServiceProvider"/> instance with the required services.
+        /// </summary>
+        private static IServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddTransient<ITelemetry, AppCentreTelemetry>()
+                .AddSingleton<MainPageViewModel>()
+                .BuildServiceProvider();
         }
     }
 }
