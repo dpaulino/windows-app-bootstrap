@@ -10,9 +10,9 @@
 
     <Grid>
         <Button
+            x:Uid="TestButton"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Command="{x:Bind ViewModel.TestCommand}"
-            Content="Test" />
+            Command="{x:Bind ViewModel.TestCommand}" />
     </Grid>
 </Page>
