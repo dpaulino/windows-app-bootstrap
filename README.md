@@ -10,6 +10,8 @@ A simple template repository you can use to fast track your new modern Windows a
 * Dependency injection already configured
 * Example usage of dependency injection
 
+This structure was also set up to be easily extended with [Xamarin](https://github.com/xamarin/Xamarin.Forms) or converted to [Uno](https://github.com/unoplatform/uno). 
+
 ## Usage
 
 1. Click the "use this template" button
